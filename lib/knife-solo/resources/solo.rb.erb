@@ -13,3 +13,18 @@ cookbook_path << File.join(base, 'cookbooks-<%= i+1 %>') # <%= path %>
 <% proxy_settings.each_pair do |k, v| -%>
 <%= k %>     "<%= v %>"
 <% end -%>
+
+self.class.class_eval{
+  class Chef
+    class Role
+
+      def name(arg=nil)
+        set_or_return(
+          :name,
+          arg,
+          :regex => /^[\-[:alnum:]_\/]+$/
+        )
+      end
+    end
+  end
+}
